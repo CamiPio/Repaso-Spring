@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Banco de Alimentos San Miguel</title>
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+  <main>
+    <h1>Banco de Alimentos San Miguel</h1>
+    <p>Escribe tu nombre para recibir un saludo de nuestro equipo.</p>
+
+    <form id="formBienvenida">
+      <label for="nombre">Tu nombre:</label>
+      <input type="text" id="nombre" name="nombre" required />
+      <button type="submit">Enviar</button>
+    </form>
+
+    <p id="resultado"></p>
+  </main>
+
+  <script>
+    document.getElementById('formBienvenida').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nombre = document.getElementById('nombre').value;
+
+      fetch('/api/bienvenida?nombre=' + encodeURIComponent(nombre))
+        .then(function (respuesta) { return respuesta.text(); })
+        .then(function (texto) {
+          document.getElementById('resultado').textContent = texto;
+        })
+        .catch(function () {
+          document.getElementById('resultado').textContent =
+            'No se pudo conectar con el servidor. ¿Está corriendo el proyecto?';
+        });
+    });
+  </script>
+</body>
+</html>
